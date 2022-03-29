@@ -15,10 +15,19 @@
     <script src="index.js"></script>
 </head>
 
-<body class="text-center">
-    <div class="container" id="app">
+<body>
+    <div class="container">
         <div class="row">
-            <ul id="todo-list" class="list-group">
+            <div class="col-12 text-center">
+                <h1 class="display-4">Tasklist JS</h1>
+                <p class="lead">
+                    <i class="fas fa-tasks"></i>
+                    <span id="todo-counter">0</span> tasks
+                </p>
+            </div>
+        </div>
+        <div class="container" id="app">
+            <div class="row gx-0 my-3">
                 <form id="todo-form" class="list-group-item p-0" autocomplete="off">
                     <div class="row gx-0">
                         <div class="col-auto flex-grow-1">
@@ -29,9 +38,11 @@
                         </div>
                     </div>
                 </form>
-            </ul>
+            </div>
+            <div class="row gx-0">
+                <ul id="todo-list" class="list-group"></ul>
+            </div>
         </div>
-    </div>
 </body>
 
 </html>

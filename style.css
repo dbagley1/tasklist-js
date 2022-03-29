@@ -13,8 +13,8 @@ body {
   color: #333;
   background-color: #fff;
   display: flex;
-  align-items: center;
   justify-content: center;
+  padding: 7% 0;
 }
 
 .todo-list {
@@ -32,6 +32,9 @@ body {
   padding: 10px;
   display: block;
   cursor: pointer;
+}
+.todo-item:hover {
+  background-color: #d2e9ff;
 }
 .todo-item:hover .todo-remove,
 .todo-item:hover .todo-edit {
@@ -72,6 +75,13 @@ body {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
+}
+
+.todo-checkbox {
+  width: 1em;
+  height: 1em;
+  margin-right: 0.5em;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */

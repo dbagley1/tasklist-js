@@ -12,6 +12,7 @@ function init() {
     todoApp.form = document.querySelector('#todo-form');
     todoApp.list = document.querySelector('#todo-list');
     todoApp.input = document.querySelector('#todo-input');
+    todoApp.counter = document.querySelector('#todo-counter');
 
     /* Render the list */
     renderList();
@@ -54,6 +55,7 @@ function init() {
         initCheckbox(todoApp.checkboxes);
         initRemoveButton(todoApp.removeBtns);
         initEditButton(todoApp.editBtns);
+        updateTaskCounter();
         return todos;
     }
 
@@ -64,7 +66,7 @@ function init() {
         li.setAttribute('data-id', todo.id);
         li.innerHTML = `
         <label class="d-flex flex-wrap align-items-center justify-content-between">
-            <div class="col-sm-auto col-12">
+            <div class="col-sm-auto col-12 flex-grow-1">
             <input type="checkbox" class="todo-checkbox" ${todo.done ? 'checked' : ''}>
             <span class="todo-text">${todo.text}</span>
             <span class="todo-edit"><i class="fas fa-edit fa-xl"></i></span>
@@ -156,5 +158,14 @@ function init() {
 
     function updateLocalStorage() {
         localStorage.setItem('todoApp', JSON.stringify(todoApp.data));
+    }
+
+    function updateTaskCounter() {
+        const counter = todoApp.counter;
+        const total = todoApp.data.tasks.length;
+        const done = todoApp.data.tasks.filter((todo) => {
+            return todo.done;
+        }).length;
+        counter.innerHTML = `${done}/${total}`;
     }
 }
