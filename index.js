@@ -60,12 +60,13 @@ function init() {
     function createTodoElement(todo) {
         const li = document.createElement('li');
         li.classList.add('todo-item', 'list-group-item');
+        todo.done ? li.classList.add('done') : li.classList.remove('done');
         li.setAttribute('data-id', todo.id);
         li.innerHTML = `
         <label class="d-flex flex-wrap align-items-center justify-content-between">
             <div class="col-sm-auto col-12">
             <input type="checkbox" class="todo-checkbox" ${todo.done ? 'checked' : ''}>
-            <span class="todo-text ${todo.done ? 'done' : ''}">${todo.text}</span>
+            <span class="todo-text">${todo.text}</span>
             <span class="todo-edit"><i class="fas fa-edit fa-xl"></i></span>
             <span class="todo-remove"><i class="fas fa-times fa-xl"></i></span>
             </div>
@@ -127,21 +128,23 @@ function init() {
         editBtns.forEach(function (editBtn) {
             editBtn.addEventListener('click', function (e) {
                 e.preventDefault();
-                const todo = e.target.closest('.todo-item');
+                let todo = e.target.closest('.todo-item');
                 const id = todo.getAttribute('data-id');
                 const text = todo.querySelector('.todo-text').textContent;
+                renderList();
+                todo = document.querySelector('[data-id="' + id + '"]');
 
                 const editForm = document.createElement('form');
                 editForm.classList.add('todo-edit-form');
                 editForm.innerHTML = `
                 <div class="form-group d-flex">
-                    <input type="text" class="form-control rounded-0 rounded-start" class="todo-edit-input" value="${text}">
+                    <input type="text" class="form-control rounded-0 rounded-start" name="todo-edit-input" value="${text}">
                     <button type="submit" class="btn btn-primary rounded-0 rounded-end">Save</button>
                 </div>
                 `;
                 editForm.addEventListener('submit', function (e) {
                     e.preventDefault();
-                    const text = editForm.querySelector('#todo-edit-input').value;
+                    const text = editForm.querySelector('[name="todo-edit-input"]').value;
                     saveTodo(text, id);
                     editForm.remove();
                 });

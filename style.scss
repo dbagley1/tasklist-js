@@ -1,9 +1,20 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
 body {
   font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;
   background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .todo-list {
@@ -29,6 +40,15 @@ body {
       opacity: 1;
     }
   }
+
+  &.done .todo-text {
+    text-decoration: line-through;
+    color: #999;
+  }
+  .todo-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
 }
 
 .todo-remove,
@@ -53,18 +73,8 @@ body {
   color: rgb(0, 122, 255);
 }
 
-.todo-item .todo-text {
-  font-size: 1.1rem;
-  font-weight: bold;
-
-  &.done {
-    text-decoration: line-through;
-    color: #999;
-  }
-}
-
 #app {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 }

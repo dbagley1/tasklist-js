@@ -1,9 +1,20 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
 body {
   font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;
   background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .todo-list {
@@ -26,6 +37,14 @@ body {
 .todo-item:hover .todo-edit {
   opacity: 1;
 }
+.todo-item.done .todo-text {
+  text-decoration: line-through;
+  color: #999;
+}
+.todo-item .todo-text {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
 
 .todo-remove,
 .todo-edit {
@@ -47,15 +66,6 @@ body {
 
 .todo-edit:hover {
   color: #007aff;
-}
-
-.todo-item .todo-text {
-  font-size: 1.1rem;
-  font-weight: bold;
-}
-.todo-item .todo-text.done {
-  text-decoration: line-through;
-  color: #999;
 }
 
 #app {
