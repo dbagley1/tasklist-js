@@ -18,15 +18,23 @@ function init() {
     initForm();
 
     /**
-     * Add a new todo item to the list
+     * Add a new todo item to the list or update an existing one
      * @param {string} text - The text of the todo item 
      */
-    function saveTodo(text) {
-        todoApp.data.tasks.push({
-            text: text,
-            done: false,
-            id: Date.now(),
-        });
+    function saveTodo(text, id) {
+        if (typeof id === 'undefined') {
+            todoApp.data.tasks.push({
+                text: text,
+                done: false,
+                id: Date.now(),
+            });
+        } else {
+            todoApp.data.tasks.forEach(function (task) {
+                if (task.id == id) {
+                    task.text = text;
+                }
+            });
+        }
         updateLocalStorage();
         renderList();
     }
@@ -45,17 +53,31 @@ function init() {
         });
         initCheckbox(todoApp.checkboxes);
         initRemoveButton(todoApp.removeBtns);
+        initEditButton(todoApp.editBtns);
         return todos;
     }
 
     function createTodoElement(todo) {
         const li = document.createElement('li');
-        li.classList.add('todo-item');
+        li.classList.add('todo-item', 'list-group-item');
         li.setAttribute('data-id', todo.id);
         li.innerHTML = `
+        <label class="d-flex flex-wrap align-items-center justify-content-between">
+            <div class="col-sm-auto col-12">
             <input type="checkbox" class="todo-checkbox" ${todo.done ? 'checked' : ''}>
             <span class="todo-text ${todo.done ? 'done' : ''}">${todo.text}</span>
-            <button class="todo-remove"><i class="fa-solid fa-trash-can"></i></a>
+            <span class="todo-edit"><i class="fas fa-edit fa-xl"></i></span>
+            <span class="todo-remove"><i class="fas fa-times fa-xl"></i></span>
+            </div>
+            <div class="col-sm-auto col-12">
+            <span class="created-at">${new Date(todo.id)
+                .toLocaleString([], {
+                    dateStyle: 'short',
+                    timeStyle: 'short',
+                    hour12: true,
+                })}</span>
+            </div>
+        </label>
         `;
         return li;
     }
@@ -71,11 +93,11 @@ function init() {
         });
     }
 
-    function initCheckbox(checkboxes) {
+    function initCheckbox() {
         checkboxes = document.querySelectorAll('.todo-checkbox');
         checkboxes.forEach(function (checkbox) {
             checkbox.addEventListener('change', function (e) {
-                const id = e.target.parentElement.getAttribute('data-id');
+                const id = e.target.closest('.todo-item').getAttribute('data-id');
                 todo = todoApp.data.tasks.find((todo) => {
                     return todo.id == id;
                 });
@@ -86,7 +108,7 @@ function init() {
         });
     }
 
-    function initRemoveButton(removeBtns) {
+    function initRemoveButton() {
         removeBtns = document.querySelectorAll('.todo-remove');
         removeBtns.forEach(function (removeBtn) {
             removeBtn.addEventListener('click', function (e) {
@@ -96,6 +118,35 @@ function init() {
                 });
                 updateLocalStorage();
                 renderList();
+            });
+        });
+    }
+
+    function initEditButton() {
+        editBtns = document.querySelectorAll('.todo-edit');
+        editBtns.forEach(function (editBtn) {
+            editBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const todo = e.target.closest('.todo-item');
+                const id = todo.getAttribute('data-id');
+                const text = todo.querySelector('.todo-text').textContent;
+
+                const editForm = document.createElement('form');
+                editForm.classList.add('todo-edit-form');
+                editForm.innerHTML = `
+                <div class="form-group d-flex">
+                    <input type="text" class="form-control rounded-0 rounded-start" class="todo-edit-input" value="${text}">
+                    <button type="submit" class="btn btn-primary rounded-0 rounded-end">Save</button>
+                </div>
+                `;
+                editForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const text = editForm.querySelector('#todo-edit-input').value;
+                    saveTodo(text, id);
+                    editForm.remove();
+                });
+                todo.parentElement.insertBefore(editForm, todo);
+                todo.remove();
             });
         });
     }

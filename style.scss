@@ -15,16 +15,20 @@ body {
   display: flex;
   align-items: center;
   padding: 0;
-}
-.todo-item label {
-  width: 100%;
-  padding: 10px;
-  display: block;
-  cursor: pointer;
-}
-.todo-item:hover .todo-remove,
-.todo-item:hover .todo-edit {
-  opacity: 1;
+
+  label {
+    width: 100%;
+    padding: 10px;
+    display: block;
+    cursor: pointer;
+  }
+
+  &:hover {
+    .todo-remove,
+    .todo-edit {
+      opacity: 1;
+    }
+  }
 }
 
 .todo-remove,
@@ -35,33 +39,32 @@ body {
   cursor: pointer;
   margin-left: 0.5em;
   z-index: 1;
-}
-.todo-remove:hover,
-.todo-edit:hover {
-  opacity: 1;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .todo-remove:hover {
-  color: #e73f3f;
+  color: rgb(231, 63, 63);
 }
 
 .todo-edit:hover {
-  color: #007aff;
+  color: rgb(0, 122, 255);
 }
 
 .todo-item .todo-text {
   font-size: 1.1rem;
   font-weight: bold;
-}
-.todo-item .todo-text.done {
-  text-decoration: line-through;
-  color: #999;
+
+  &.done {
+    text-decoration: line-through;
+    color: #999;
+  }
 }
 
 #app {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
 }
-
-/*# sourceMappingURL=style.css.map */
